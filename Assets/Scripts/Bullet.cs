@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    Vector3 direction;
-    public float speed = 10.0f;
-    Monster monster;
-    Player player;
+    public float speed = 1f;
     [SerializeField] Bullet bullet;
 
-    public void Fire()
+    public void Fire(Player player)
     {
+        
+        if (player.scanner.nearestTarget == null) return;
+
         Vector3 targetpos = player.scanner.nearestTarget.position;
         Vector3 dir = targetpos - player.transform.position;
         dir = dir.normalized;
-        bullet.transform.Translate(dir * Time.deltaTime * speed);
+        bullet.transform.forward = Vector3.Lerp(transform.forward, dir, speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)

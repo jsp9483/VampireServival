@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    public static float monsterHP = 1f;
+    public static float monsterHP = 100f;
     public float speed = 1f;
 
     Rigidbody rigidbody;
@@ -22,13 +22,14 @@ public class Monster : MonoBehaviour
         Vector3 nextVec = dirVec * speed * Time.fixedDeltaTime;
         rigidbody.MovePosition(this.rigidbody.position + nextVec);
         rigidbody.velocity = Vector3.zero;
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        var controller = collision;
-        if (controller != null)
+        bool collider = rigidbody.CompareTag("Player");
+        if(monsterHP < 0f) 
         {
-            Player.playerHP -= 1;
+            Destroy(gameObject);
+        }
+        if (collider == true)
+        {
+            Player.playerHP -= 1f;
         }
     }
 }

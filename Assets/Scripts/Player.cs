@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -29,10 +32,15 @@ public class Player : MonoBehaviour
         dir.x = Input.GetAxis("Horizontal");
         dir.z = Input.GetAxis("Vertical");
         dir.Normalize();
+
+        Debug.Log("PlayerHP = " + playerHP);
+
         if(playerHP <= 0)
         {
-            Destroy(this.gameObject);
+            playerHP = 100f;
+            GameOver();
         }
+
     }
 
     private void FixedUpdate()
@@ -48,6 +56,16 @@ public class Player : MonoBehaviour
         }
 
         rigidbody.MovePosition(gameObject.transform.position + dir * speed * Time.deltaTime);
+    }
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("Play");
     }
 
 }
